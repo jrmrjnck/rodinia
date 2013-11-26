@@ -1,3 +1,21 @@
-#./euler3d ../../data/cfd/fvcorr.domn.097K   
-#./euler3d ../../data/cfd/fvcorr.domn.193K   
-./euler3d ../../data/cfd/missile.domn.0.2M  
+#!/bin/bash
+
+input=$1
+if [[ -z "$input" ]]
+then
+   input='2'
+fi
+
+case $input in
+   0)
+      ./euler3d ../../data/cfd/fvcorr.domn.097K   
+      ;;
+   1)
+      ./euler3d ../../data/cfd/fvcorr.domn.193K   
+      ;;
+   2)
+      ./euler3d ../../data/cfd/missile.domn.0.2M  
+      ;;
+   *)
+      echo "Invalid input"
+esac

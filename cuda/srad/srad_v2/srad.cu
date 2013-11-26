@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <srad.h>
+#include "srad.h"
 
 // includes, project
 #include <cuda.h>
 
 // includes, kernels
-#include <srad_kernel.cu>
+#include "srad_kernel.cu"
 
 void random_matrix(float *I, int rows, int cols);
 void runTest( int argc, char** argv);

@@ -18,6 +18,7 @@ a.out:		main.o
 	$(CC)	main.o \
 				-I$(INCLUDE) \
 				-L$(CUDA_LIB_DIR)  \
+				-arch=$(CUDA_ARCH) \
 				-lm -lcuda -lcudart -o srad
 
 # compile main function file into object (binary)
@@ -30,8 +31,8 @@ main.o: 	main.cu \
 				srad_kernel.cu \
 				srad2_kernel.cu \
 				compress_kernel.cu
-	nvcc	main.cu \
-				-c -O3 -arch sm_13
+	$(CC)	main.cu \
+				-c -O3 -arch=$(CUDA_ARCH)
 
 # delete all object files
 clean:

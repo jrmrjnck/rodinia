@@ -15,7 +15,7 @@ all: CUDA OMP OPENCL
 CUDA: 
 	cd cuda/backprop;		make;	cp backprop $(CUDA_BIN_DIR)
 	cd cuda/bfs; 			make;	cp bfs $(CUDA_BIN_DIR)
-	cd cuda/b+tree;      make; cp b+tree.out $(CUDA_BIN_DIR)
+	cd cuda/b+tree;      make; cp b+tree $(CUDA_BIN_DIR)
 	cd cuda/cfd; 			make;	cp euler3d $(CUDA_BIN_DIR)
 	cd cuda/gaussian;		make;	cp gaussian $(CUDA_BIN_DIR)
 	cd cuda/heartwall;  		make;	cp heartwall $(CUDA_BIN_DIR)

@@ -47,12 +47,20 @@ cd $rundir
 
 if [[ "$platform" =~ (.*)-sim ]] 
 then
+   # Set up the run directory
    base=${BASH_REMATCH[1]}
    simConfigDir="$GPGPUSIM_DIR/configs/$base"
    cp $simConfigDir/* ./
    ln -s ../../../bin/linux/cuda/"$benchmark"
    ln -s ../../../cuda/"$benchmark"/run
 
+   # Make sure data symlink is in place for the run script
+   if [[ ! -L ../../data ]]
+   then
+      ln -s ../../data ../../data
+   fi
+
+   # Run in gpgpu-sim
    export CUDA_INSTALL_PATH=$CUDA_DIR
    source $GPGPUSIM_DIR/setup_environment
    ./run > log.txt

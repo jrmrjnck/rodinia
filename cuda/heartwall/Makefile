@@ -1,6 +1,8 @@
+include ../../common/make.config
+
 # link objects(binaries) together
 heartwall: main.o ./AVI/avilib.o ./AVI/avimod.o 
-	nvcc main.o ./AVI/avilib.o ./AVI/avimod.o -I/usr/local/cuda/include -lm -o heartwall
+	nvcc -arch=$(CUDA_ARCH) main.o ./AVI/avilib.o ./AVI/avimod.o -I/usr/local/cuda/include -lm -o heartwall
 
 # compile main function file into object (binary)
 main.o: main.cu kernel.cu define.c

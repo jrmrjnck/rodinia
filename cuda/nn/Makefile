@@ -9,8 +9,8 @@ clean :
 	rm -rf *.o nn hurricane_gen
 
 nn : nn_cuda.cu
-	$(CC) -cuda nn_cuda.cu
-	$(CC) -o nn nn_cuda.cu
+	$(CC) -arch=$(CUDA_ARCH) -cuda nn_cuda.cu
+	$(CC) -arch=$(CUDA_ARCH) -o nn nn_cuda.cu
 
 hurricane_gen : hurricane_gen.c
 	$(LOCAL_CC) -o $@ $< -lm

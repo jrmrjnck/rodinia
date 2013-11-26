@@ -64,7 +64,7 @@ CWARN_FLAGS := $(CXXWARN_FLAGS) \
 	-Wmain \
 
 # Compiler-specific flags
-NVCCFLAGS := -Xcompiler "-m64"
+NVCCFLAGS := -Xcompiler "-m64" -arch=$(CUDA_ARCH)
 CXXFLAGS  := -m64 $(CXXWARN_FLAGS)
 CFLAGS    := -m64 $(CWARN_FLAGS)
 

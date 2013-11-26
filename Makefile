@@ -15,6 +15,7 @@ all: CUDA OMP OPENCL
 CUDA: 
 	cd cuda/backprop;		make;	cp backprop $(CUDA_BIN_DIR)
 	cd cuda/bfs; 			make;	cp bfs $(CUDA_BIN_DIR)
+	cd cuda/b+tree;      make; cp b+tree.out $(CUDA_BIN_DIR)
 	cd cuda/cfd; 			make;	cp euler3d $(CUDA_BIN_DIR)
 	cd cuda/gaussian;		make;	cp gaussian $(CUDA_BIN_DIR)
 	cd cuda/heartwall;  		make;	cp heartwall $(CUDA_BIN_DIR)
@@ -23,6 +24,7 @@ CUDA:
 	cd cuda/lavaMD;			make;	cp lavaMD $(CUDA_BIN_DIR)
 	cd cuda/leukocyte;  		make;	cp CUDA/leukocyte $(CUDA_BIN_DIR)
 	cd cuda/lud; 			make;	cp cuda/lud_cuda $(CUDA_BIN_DIR)
+	cd cuda/myocyte;     make; cp myocyte.out $(CUDA_BIN_DIR)
 	cd cuda/nn;				make;	cp nn $(CUDA_BIN_DIR)
 	cd cuda/nw; 			make;	cp needle $(CUDA_BIN_DIR)
 	cd cuda/srad/srad_v1; 		make;	cp srad $(CUDA_BIN_DIR)/srad_v1

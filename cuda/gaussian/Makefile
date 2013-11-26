@@ -8,7 +8,7 @@ SRC = gaussian.cu
 EXE = gaussian
 
 release: $(SRC)
-	$(CC) $(SRC) -o $(EXE) -I$(INCLUDE) -L$(CUDA_LIB_DIR) 
+	$(CC) -arch=$(CUDA_ARCH) $(SRC) -o $(EXE) -I$(INCLUDE) -L$(CUDA_LIB_DIR) 
 
 clean:
 	rm gaussian

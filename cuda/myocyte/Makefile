@@ -7,6 +7,7 @@ myocyte.out:		main.o
 	$(NVCC)	main.o \
 				-I$(CUDA_DIR)/include \
 				-L$(CUDA_DIR)/lib64 \
+				-arch=$(CUDA_ARCH) \
 				-lm -lcuda -lcudart \
                                 -o myocyte.out
 
@@ -31,7 +32,7 @@ main.o:	define.c \
 				file.c \
 				timer.c
 	$(NVCC)	main.cu \
-				-c -O3 -g
+				-c -O3 -g -arch=$(CUDA_ARCH)
 
 # delete all object files
 clean:

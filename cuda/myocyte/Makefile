@@ -1,17 +1,12 @@
-# Example
-# target: dependencies
-	# command 1
-	# command 2
-          # .
-          # .
-          # .
-	# command n
+include ../../common/make.config
+
+NVCC = $(CUDA_DIR)/bin/nvcc
 
 # link objects(binaries) together
 myocyte.out:		main.o
-	nvcc	main.o \
-				-I/usr/local/cuda/include \
-				-L/usr/local/cuda/lib \
+	$(NVCC)	main.o \
+				-I$(CUDA_DIR)/include \
+				-L$(CUDA_DIR)/lib64 \
 				-lm -lcuda -lcudart \
                                 -o myocyte.out
 
@@ -35,7 +30,7 @@ main.o:	define.c \
 				kernel_fin_2.cu \
 				file.c \
 				timer.c
-	nvcc	main.cu \
+	$(NVCC)	main.cu \
 				-c -O3 -g
 
 # delete all object files

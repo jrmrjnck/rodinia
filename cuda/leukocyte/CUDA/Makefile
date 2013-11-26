@@ -6,7 +6,7 @@ CC_FLAGS = -g -O3 -Wall -I$(MATRIX_DIR)
 
 # CUDA compiler
 NVCC = $(CUDA_DIR)/bin/nvcc
-NVCC_FLAGS = -I$(CUDA_DIR)/include -I$(SDK_DIR)/common/inc
+NVCC_FLAGS = -I$(CUDA_DIR)/include -I$(SDK_DIR)/common/inc -arch=$(CUDA_ARCH)
 
 # Matrix library path
 MATRIX_DIR = ../meschach_lib
@@ -25,9 +25,9 @@ endif
 
 
 leukocyte: detect_main.o avilib.o find_ellipse.o find_ellipse_kernel.o track_ellipse.o track_ellipse_kernel.o misc_math.o $(MATRIX_DIR)/meschach.a
-	$(CC) $(CC_FLAGS) -lm avilib.o find_ellipse.o find_ellipse_kernel.o track_ellipse.o track_ellipse_kernel.o misc_math.o detect_main.o -o leukocyte $(MATRIX_DIR)/meschach.a -L$(CUDA_LIB_DIR) -lm -lcuda -lcudart
+	$(CC) $(CC_FLAGS) -lm avilib.o find_ellipse.o find_ellipse_kernel.o track_ellipse.o track_ellipse_kernel.o misc_math.o detect_main.o -o leukocyte $(MATRIX_DIR)/meschach.a -L$(CUDA_LIB_DIR) -lm -lcuda -lcudart -lstdc++
 
-%.o: %.[ch]
+%.o: %.c
 	$(CC) $(CC_FLAGS) $< -c
 
 detect_main.o: detect_main.c find_ellipse.h track_ellipse.h avilib.h 

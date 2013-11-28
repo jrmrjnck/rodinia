@@ -74,13 +74,13 @@ else
    else
       source "$hwConf"
 
-      # Collect initial timeline
+      echo "Collecting initial timeline"
       nvprof --log-file %1 --output-profile profile.out --system-profiling on $runCmd >> log.txt
 
-      # Collect metrics
+      echo "Collecting metrics"
       nvprof --log-file %1 --output-profile metrics.out --metrics $metrics $runCmd >> log.txt
 
-      # Collect events
+      echo "Collecting events"
       nvprof --log-file %1 --output-profile events.out --events $events $runCmd >> log.txt
    fi
 fi

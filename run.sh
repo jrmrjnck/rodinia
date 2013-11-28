@@ -66,7 +66,23 @@ then
    source $GPGPUSIM_DIR/setup_environment
    eval $runCmd >> log.txt
 else
-   nvprof --log-file %1 $runCmd >> log.txt
+   hwConf="$RODINIA_DIR/hw/$platform"".conf"
+   if [[ ! -f "$hwConf" ]]
+   then
+      echo "No nvprof configuration file found for $platform"
+      nvprof --log-file %1 $runCmd >> log.txt
+   else
+      source "$hwConf"
+
+      # Collect initial timeline
+      nvprof --log-file %1 --output-profile profile.out --system-profiling on $runCmd >> log.txt
+
+      # Collect metrics
+      nvprof --log-file %1 --output-profile metrics.out --metrics $metrics $runCmd >> log.txt
+
+      # Collect events
+      nvprof --log-file %1 --output-profile events.out --events $events $runCmd >> log.txt
+   fi
 fi
 
 echo "Finished"

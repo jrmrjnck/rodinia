@@ -12,9 +12,8 @@ then
 fi
 
 benchmark="$1"
-input="$3"
-source "cuda/$benchmark/run.conf"
-runCmd="$RODINIA_DIR/bin/linux/cuda/$runExec $runArgs"
+DATA_DIR="$RODINIA_DIR/data/$benchmark"
+input=${3:-"small"}
 
 # Check for valid platforms
 platforms=(gt240 gtx460m gtx760 GTX480-sim QuadroFX5600-sim QuadroFX5800-sim TeslaC2050-sim)
@@ -40,12 +39,10 @@ rundir="$platform"_$(date +%F-%H.%M)
 mkdir -p "results/$benchmark/$rundir"
 cd "results/$benchmark/$rundir"
 
-# Make sure data symlink is in place for the run script
-if [[ ! -L ../../data ]]
-then
-   ln -s ../../data ../../data
-fi
+source "$RODINIA_DIR/cuda/$benchmark/run.conf"
+runCmd="$RODINIA_DIR/bin/linux/cuda/$runExec $runArgs"
 
+echo "$runCmd"
 echo -e "$runCmd\n$input\n" > log.txt
 
 if [[ "$platform" =~ (.*)-sim ]] 
@@ -69,6 +66,6 @@ else
       exit
    fi
 
-   export LD_LIBRARY_PATH="$CUDA_DIR/lib64"
-   nvprof "$runCmd" >> log.txt
+   export LD_LIBRARY_PATH=/opt/cuda/lib64
+   nvprof $runCmd >> log.txt
 fi

@@ -16,7 +16,7 @@ DATA_DIR="$RODINIA_DIR/data/$benchmark"
 input=${3:-"small"}
 
 # Check for valid platforms
-platforms=(gt240 gtx460m gtx760 GTX480-sim QuadroFX5600-sim QuadroFX5800-sim TeslaC2050-sim)
+platforms=(hw GTX480-sim QuadroFX5600-sim QuadroFX5800-sim TeslaC2050-sim)
 platform=''
 
 for p in "${platforms[@]}"
@@ -34,14 +34,23 @@ then
    exit
 fi
 
-_input=$input
-rundir="$platform"_$(date +%F-%H.%M)
+if [[ "$platform" == "hw" ]]
+then
+   # Get the name of the GPU 0 reported by nvidia-smi
+   # nvidia-smi isn't tested on anything other than my own system, so I don't
+   # know if it reports all cards and what format it may use for them
+   platform=$(nvidia-smi -L | cut -d' ' -f4,5 --output-delimiter='' | tr '[:upper:]' '[:lower:]')
+   echo "Found hw: $platform"
+fi
+
+rundir="$platform"_"$input"_$(date +%F-%H.%M)
 mkdir -p "results/$benchmark/$rundir"
 cd "results/$benchmark/$rundir"
 
 source "$RODINIA_DIR/cuda/$benchmark/run.conf"
 runCmd="$RODINIA_DIR/bin/linux/cuda/$runExec $runArgs"
 
+echo "Run directory: $RODINIA_DIR/results/$benchmark/$rundir"
 echo "$runCmd"
 echo -e "$runCmd\n$input\n" > log.txt
 
@@ -57,15 +66,7 @@ then
    source $GPGPUSIM_DIR/setup_environment
    eval $runCmd >> log.txt
 else
-   gpus=$(nvidia-smi -L | sed -e 's/ //g' | tr '[:upper:]' '[:lower:]')
-   if [[ "$gpus" != *"$platform"* ]]
-   then
-      echo "$platform not found"
-      cd ..
-      rmdir $rundir
-      exit
-   fi
-
-   export LD_LIBRARY_PATH=/opt/cuda/lib64
-   nvprof $runCmd >> log.txt
+   nvprof --log-file %1 $runCmd >> log.txt
 fi
+
+echo "Finished"

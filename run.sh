@@ -45,6 +45,12 @@ rundir="$platform"_$(date +%F-%H.%M)
 mkdir $rundir
 cd $rundir
 
+# Make sure data symlink is in place for the run script
+if [[ ! -L ../../data ]]
+then
+   ln -s ../../data ../../data
+fi
+
 if [[ "$platform" =~ (.*)-sim ]] 
 then
    # Set up the run directory
@@ -54,14 +60,26 @@ then
    ln -s ../../../bin/linux/cuda/"$benchmark"
    ln -s ../../../cuda/"$benchmark"/run
 
-   # Make sure data symlink is in place for the run script
-   if [[ ! -L ../../data ]]
-   then
-      ln -s ../../data ../../data
-   fi
-
    # Run in gpgpu-sim
    export CUDA_INSTALL_PATH=$CUDA_DIR
    source $GPGPUSIM_DIR/setup_environment
-   ./run > log.txt
+   cat run > log.txt
+   echo -e "\n\n" >> log.txt
+   ./run >> log.txt
+else
+   gpus=$(nvidia-smi -L | sed -e 's/ //g' | tr '[:upper:]' '[:lower:]')
+   if [[ "$gpus" != *"$platform"* ]]
+   then
+      echo "$platform not found"
+      cd ..
+      rmdir $rundir
+      exit
+   fi
+
+   ln -s ../../../bin/linux/cuda/"$benchmark"
+   ln -s ../../../cuda/"$benchmark"/run
+   export LD_LIBRARY_PATH="$CUDA_DIR/lib64"
+   cat run > log.txt
+   echo -e "\n\n" >> log.txt
+   nvprof ./run >> log.txt
 fi

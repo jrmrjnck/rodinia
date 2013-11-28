@@ -98,7 +98,6 @@ b+tree:	./main.o \
 			./util/num/num.o \
 			./util/cuda/cuda.o \
 			-lm \
-			-lstdc++ \
 			-L$(CUDA_LIB_DIR) \
 			$(CUDA_LIB)\
                        -o b+tree

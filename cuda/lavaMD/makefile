@@ -30,7 +30,7 @@ a.out:		main.o \
 			./util/device/device.o \
 			-lm \
 			-L$(CUDA_DIR)/lib64 \
-			-lcuda -lcudart -lstdc++ \
+			-lcuda -lcudart \
 			$(OMP_LIB) \
 			-o lavaMD
 

@@ -16,7 +16,7 @@ do
       else
          input="small"
       fi
-      echo "./run $b $p $input" >> $cmdFile
+      echo "./run.sh $b $p $input" >> $cmdFile
    done
 done
 

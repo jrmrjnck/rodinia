@@ -75,7 +75,7 @@ else
       source "$hwConf"
 
       echo "Collecting initial timeline"
-      nvprof --log-file %1 --output-profile profile.out --system-profiling on $runCmd >> log.txt
+      nvprof --log-file %1 --output-profile profile.out --analysis-metrics --system-profiling on $runCmd >> log.txt
 
       echo "Collecting metrics"
       nvprof --log-file %1 --output-profile metrics.out --metrics $metrics $runCmd >> log.txt

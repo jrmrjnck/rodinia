@@ -1,7 +1,7 @@
 #!/bin/bash
 
 benchmarks=(backprop bfs b+tree cfd gaussian heartwall hotspot kmeans lavaMD lud mummergpu myocyte nn nw particlefilter pathfinder srad streamcluster)
-platforms=(GTX480-sim QuadroFX5600-sim QuadroFX5800-sim TeslaC2050-sim)
+platforms=(hw)
 
 cmdFile=$(mktemp)
 
@@ -21,6 +21,6 @@ do
 done
 
 # Let simulations run for 5 hours
-parallel --timeout $(calc 5*60*60) < $cmdFile
+parallel -j1 --timeout $(calc 5*60*60) < $cmdFile
 
 rm $cmdFile
